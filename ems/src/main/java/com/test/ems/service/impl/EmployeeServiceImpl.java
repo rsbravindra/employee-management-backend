@@ -2,6 +2,7 @@ package com.test.ems.service.impl;
 
 import com.test.ems.dto.EmployeeDto;
 import com.test.ems.entity.Employee;
+import com.test.ems.exception.EmployeeAlreadyExistsException;
 import com.test.ems.repository.EmployeeRepository;
 import com.test.ems.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -34,11 +35,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             Employee existingEmployeeByEmail = employeeRepository.findByEmailId(employeeDto.getEmailId());
             Employee existingEmployeeByPhoneNumber = employeeRepository.findByPhoneNumber(employeeDto.getPhoneNumber());
             if (existingEmployeeByEmail!=null) {
-                throw new RuntimeException("Employee with email already exists: " + employeeDto.getEmailId());
+                throw new EmployeeAlreadyExistsException("Employee with email already exists: " + employeeDto.getEmailId());
             }
             // Check for duplicate phone number
             if (existingEmployeeByPhoneNumber!=null) {
-                throw new RuntimeException("Employee with phone number already exists: " + employeeDto.getPhoneNumber());
+                throw new EmployeeAlreadyExistsException("Employee with phone number already exists: " + employeeDto.getPhoneNumber());
             }
             employee.setFirstName(employeeDto.getFirstName());
             employee.setLastName(employeeDto.getLastName());
@@ -53,9 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setLastModifiedBy(employeeDto.getLastModifiedBy());
             log.info("Before Saving employee {}", employee);
             employee = employeeRepository.save(employee);
-        } catch (RuntimeException e) {
+        } catch (EmployeeAlreadyExistsException e) {
             log.error(e.getMessage());
-            throw new RuntimeException("Failed to save employee" + e.getMessage());
+            throw new EmployeeAlreadyExistsException("Failed to save employee" + e.getMessage());
         }
         return employee;
     }

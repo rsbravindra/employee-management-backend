@@ -2,6 +2,7 @@ package com.test.ems.controller;
 
 import com.test.ems.dto.EmployeeDto;
 import com.test.ems.entity.Employee;
+import com.test.ems.exception.EmployeeAlreadyExistsException;
 import com.test.ems.service.EmployeeService;
 import jakarta.validation.Valid;
 import jakarta.validation.Validation;
@@ -35,8 +36,6 @@ public class EmployeeController {
             return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
         } catch (ValidationException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
