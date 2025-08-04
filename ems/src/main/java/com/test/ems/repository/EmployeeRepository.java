@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
-
-@Repository
+// JPA already has @Repository annotation so no need it on top this interface
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Employee findByEmailId(String emailId);
     Employee findByPhoneNumber(String phoneNumber);
