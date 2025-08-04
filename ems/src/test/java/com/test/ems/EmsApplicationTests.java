@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ class EmsApplicationTests {
 
 	@Test
 	@Order(1)
+	@Rollback(value = false) // since each method runs in its own transaction and when using order we should avoid rollback
 	public void saveEmployeeTest() {
 		Employee employee = Employee.builder()
 				.firstName("Ravindra")
