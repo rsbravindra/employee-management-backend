@@ -31,15 +31,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/login").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll()
@@ -60,21 +51,6 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder());
 
         return authenticationManagerBuilder.build();
-    }
-
-    @Bean
-    public CommandLineRunner initUsers(UserRepository userRepo, PasswordEncoder encoder) {
-        System.out.println("encoded password" + encoder.encode("password"));
-        return args -> {
-            if (userRepo.findByUsername("user").isEmpty()) {
-                User admin = new User();
-                admin.setUsername("user");
-                admin.setPassword(encoder.encode("password")); // store bcrypt hash
-                admin.setRole("ROLE_ADMIN");
-                userRepo.save(admin);
-
-            }
-        };
     }
 
     @Bean
