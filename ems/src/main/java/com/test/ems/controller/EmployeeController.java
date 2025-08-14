@@ -2,21 +2,20 @@ package com.test.ems.controller;
 
 import com.test.ems.dto.EmployeeDto;
 import com.test.ems.entity.Employee;
-import com.test.ems.exception.EmployeeAlreadyExistsException;
+
 import com.test.ems.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.Validation;
+
 import jakarta.validation.ValidationException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +44,7 @@ public class EmployeeController {
             responseCode = "201",
             description = "HTTP Status: Employee Created"
     )
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
         try {
             Employee createdEmployee = employeeService.createEmployee(employeeDto);
