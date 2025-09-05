@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabitMQConfig {
+public class RabbitMQConfig {
     public static final String EXCHANGE = "employee.exchange";
     public static final String ROUTING_KEY = "employee.routing.key";
     public static final String QUEUE = "employee.notifications";
